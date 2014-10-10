@@ -46,5 +46,8 @@ var app = {
         receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
+    },
+    buttonpress: function() {
+        navigator.notification.alert('Hello!');
     }
 };
