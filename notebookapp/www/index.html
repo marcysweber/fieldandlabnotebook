@@ -24,10 +24,9 @@
 
 <!--
 Problems:
-- icons/images are not working across the board. see: dropdowns
 - in-line input field (i. e. fieldcontain) is not working, see: newsetup page
 - how can i use a loop for the dropdowns?
-- in lengeth of session dropdowns, newsetup page, how can these values be linked together and with observation interval in an algebraic equation? then looped to give only 30 or so options?
+- in length of session dropdowns, newsetup page, how can these values be linked together and with observation interval in an algebraic equation? then looped to give only 30 or so options?
 - radio list
 -->
 <html>
@@ -39,7 +38,7 @@ Problems:
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
     <!-- <link rel="stylesheet" type="text/css" href="css/index.css" /> -->
     <link rel="stylesheet" type="text/css" href="css/first.css" />
-    <link rel="stylesheet" type="text/css" href="css/jquery.mobile.icons.min.js" />
+    <link rel="stylesheet" type="text/css" href="css/jquery.mobile.icons.min.css" /> 
     <link rel="stylesheet" type="text/css" href="css/jquery.mobile.custom.structure.css" />
 
 
@@ -50,7 +49,7 @@ Problems:
     <div data-role="page" id="homeloggedin">
         <div data-role="header" style="overflow:hidden;">
             <h1>Welcome!</h1>
-            <a href="#homeloggedin" data-role="button" class="ui-btn-right">Home</a>
+            <a href="#homeloggedin" data-role="button" data-icon="home" class="ui-btn-right">Home</a>
         </div><!-- /header -->
         <div align="center">
         <div data-role="content">
@@ -82,7 +81,7 @@ Problems:
 
         <div data-role="header">
             <h1>Field and Lab Notebook</h1>
-            <a href="#homeloggedin" data-role="button" class="ui-btn-right">Home</a>
+            <a href="#homeloggedin" data-role="button" data-icon="home" class="ui-btn-right">Home</a>
         </div><!-- /header -->
 
         <div data-role="content">
@@ -94,7 +93,7 @@ Problems:
     <div data-role="page" id="newsetup">
         <div data-role="header">
             <h1>Field and Lab Notebook</h1>
-            <a href="#homeloggedin" data-role="button" class="ui-btn-right">Home</a>
+            <a href="#homeloggedin" data-role="button" data-icon="home" class="ui-btn-right">Home</a>
         </div><!-- /header -->
 
         <div data-role="content">
@@ -112,16 +111,7 @@ Problems:
                     <label for="select-choice-hours">hr(s)</label>
                     <select name="select-choice-hours" id="select-choice-hours" data-mini="true">
 
-                    <?php
-                    for($i=0; $i<=12; $i++)
-                    {
-                        echo "<option value=".$i.">".$i."</option>";
-                    }
-                    ?>
-                        <option name="hr(s)"></option>
                     </select>
-
-                    <input type="submit" name="submitHrs" value="Hr" />
                 
                     <label for="select-choice-mins">min(s)</label>
                     <select name="select-choice-mins" id="select-choice-mins" data-mini="true">
@@ -312,7 +302,7 @@ Problems:
     <div data-role="page" id="accountinfo">
         <div data-role="header">
             <h1>Field and Lab Notebook</h1>
-            <a href="#homeloggedin" data-role="button" class="ui-btn-right">Home</a>
+            <a href="#homeloggedin" data-role="button" data-icon="home" class="ui-btn-right">Home</a>
         </div><!-- /header -->
         <div data-role="content">
             <div align="center">

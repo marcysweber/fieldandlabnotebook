@@ -16,6 +16,19 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+var uidata = {
+    gethrs: function() {
+        var dropdown = $("#select-choice-hours");
+        for(var i = 0; i <= 12; i++) {
+            var op = new Option();
+            op.value = i;
+            op.text = i;
+            dropdown.append(op);
+        };
+    }
+};
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -34,17 +47,11 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-        navigator.notification.alert('Hello!');
+        uidata.gethrs();
+        //navigator.notification.alert('Hello!');
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
         console.log('Received Event: ' + id);
     },
     buttonpress: function() {
