@@ -19,6 +19,17 @@
     specific language governing permissions and limitations
     under the License.
 -->
+
+
+
+<!--
+Problems:
+- icons/images are not working across the board. see: dropdowns
+- in-line input field (i. e. fieldcontain) is not working, see: newsetup page
+- how can i use a loop for the dropdowns?
+- in lengeth of session dropdowns, newsetup page, how can these values be linked together and with observation interval in an algebraic equation? then looped to give only 30 or so options?
+- radio list
+-->
 <html>
 <head>
     <meta charset="utf-8" />
@@ -27,26 +38,287 @@
     <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
     <!-- <link rel="stylesheet" type="text/css" href="css/index.css" /> -->
+    <link rel="stylesheet" type="text/css" href="css/first.css" />
+    <link rel="stylesheet" type="text/css" href="css/jquery.mobile.icons.min.js" />
     <link rel="stylesheet" type="text/css" href="css/jquery.mobile.custom.structure.css" />
-    <link rel="stylesheet" type="text/css" href="css/jquery.mobile.custom.theme.css" />
+
+
+    <!-- <link rel="stylesheet" type="text/css" href="css/jquery.mobile.custom.theme.css" /> -->
     <title>Notebook App</title>
 </head>
 <body>
-    <div data-role="header" style="overflow:hidden;">
-        <h1>Welcome!</h1>
-        <a href="#" data-icon="gear" class="ui-btn-right" onclick="app.buttonpress();">Options</a>
+    <div data-role="page" id="homeloggedin">
+        <div data-role="header" style="overflow:hidden;">
+            <h1>Welcome!</h1>
+            <a href="#homeloggedin" data-role="button" class="ui-btn-right">Home</a>
+        </div><!-- /header -->
+        <div align="center">
+        <div data-role="content">
+    
+        <p><h1>Field and Lab Notebook</h1><h4>(c) Marcy S Weber</h4></p></div>
 
-        <button class="ui-btn ui-shadow" onclick="app.buttonpress();">Button</button>
-    </div><!-- /header -->
+        <p>Logged in as: <a href="#accountinfo" class="ui-link">me@gmail.com</a></p>
+        <p><a href="app.logout();" class="ui-link">Not your account?</a></p>
+        <p><h2>Start with:</h2></p>
+        </div>
 
-    <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="js/jquery.mobile.custom.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
-    <script type="text/javascript">
-        app.initialize();
-    </script>
-    <!-- // <script type="text/javascript" src="js/jquery.mobile.custom.js"></script> -->
 
+        <a href="#newsetup" class="ui-btn ui-shadow ui-btn-corner-all">New Setup</a>
+        <a href="#savedsetups" class="ui-btn ui-shadow ui-btn-corner-all">Saved Setups</a>
+        <a href="#savedsessions" class="ui-btn ui-shadow ui-btn-corner-all" onclick="app.buttonpress();">Access Your Saved Sessions</a>
+
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/jquery.mobile.custom.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+        <!-- // <script type="text/javascript" src="js/jquery.mobile.custom.js"></script> -->
+    </div> <!-- /page-->
+
+<!-- Start of second page -->
+    <div data-role="page" id="savedsetups">
+
+        <div data-role="header">
+            <h1>Field and Lab Notebook</h1>
+            <a href="#homeloggedin" data-role="button" class="ui-btn-right">Home</a>
+        </div><!-- /header -->
+
+        <div data-role="content">
+            <div align="center"><p><h2>Your Saved Setups</h2></p></div>   
+            <p>Here's where the saved setups would go for the account.</p>         
+        </div><!-- /content -->
+    </div><!-- /page -->
+<!-- Start of New Setup page -->
+    <div data-role="page" id="newsetup">
+        <div data-role="header">
+            <h1>Field and Lab Notebook</h1>
+            <a href="#homeloggedin" data-role="button" class="ui-btn-right">Home</a>
+        </div><!-- /header -->
+
+        <div data-role="content">
+            <div align="center">
+                <p><h2>New Setup</h2></p>
+            </div>   
+            <div data-role="fieldcontain" class="ui-field-contain ui-body ui-br">
+                <label for="setupname">Name:</label>
+                <input type="text" name="setupname" id="setupname" value="" data-mini="true"/>
+            </div>  
+            <!-- Observation interval-->
+            <div data-role="fieldcontain">
+                <fieldset data-role="controlgroup" data-type="horizontal">
+                    <legend>Observation Interval:</legend>
+                    <label for="select-choice-hours">hr(s)</label>
+                    <select name="select-choice-hours" id="select-choice-hours" data-mini="true">
+
+                    <?php
+                    for($i=0; $i<=12; $i++)
+                    {
+                        echo "<option value=".$i.">".$i."</option>";
+                    }
+                    ?>
+                        <option name="hr(s)"></option>
+                    </select>
+
+                    <input type="submit" name="submitHrs" value="Hr" />
+                
+                    <label for="select-choice-mins">min(s)</label>
+                    <select name="select-choice-mins" id="select-choice-mins" data-mini="true">
+                        <option>min(s)</option>
+                        <option value="0">0 m</option>
+                        <option value="1">1 m</option>
+                        <option value="2">2 m</option>
+                        <option value="3">3 m</option>
+                        <option value="4">4 m</option>
+                        <option value="5">5 m</option>
+                        <option value="6">6 m</option>
+                        <option value="7">7 m</option>
+                        <option value="8">8 m</option>
+                        <option value="9">9 m</option>
+                        <option value="10">10 m</option>
+                        <option value="11">11 m</option>
+                        <option value="12">12 m</option>
+                        <option value="13">13 m</option>
+                        <option value="14">14 m</option>
+                        <option value="15">15 m</option>
+                        <option value="16">16 m</option>
+                        <option value="17">17 m</option>
+                        <option value="18">18 m</option>
+                        <option value="19">19 m</option>
+                        <option value="20">20 m</option>
+                        <option value="21">21 m</option>
+                        <option value="22">22 m</option>
+                        <option value="23">23 m</option>
+                        <option value="24">24 m</option>
+                        <option value="25">25 m</option>
+                        <option value="26">26 m</option>
+                        <option value="27">27 m</option>
+                        <option value="28">28 m</option>
+                        <option value="29">29 m</option>
+                        <option value="30">30 m</option>
+                        <option value="31">31 m</option> 
+                        <option value="32">32 m</option>
+                        <option value="33">33 m</option>
+                        <option value="34">34 m</option>  
+                        <option value="35">35 m</option>
+                        <option value="36">36 m</option>
+                        <option value="37">37 m</option>
+                        <option value="38">38</option>
+                        <option value="39">39</option>
+                        <option value="40">40</option>
+                        <option value="41">41</option>
+                        <option value="42">42</option>
+                        <option value="43">43</option>
+                        <option value="44">44</option>
+                        <option value="45">45</option>
+                        <option value="46">46</option>
+                        <option value="47">47</option>
+                        <option value="48">48</option>
+                        <option value="49">49</option>
+                        <option value="50">50</option>
+                        <option value="51">51</option>
+                        <option value="52">52</option>
+                        <option value="53">53</option>
+                        <option value="54">54</option>
+                        <option value="55">55</option>
+                        <option value="56">56</option>
+                        <option value="57">57</option>
+                        <option value="58">58</option>
+                        <option value="59">59</option>
+                    </select>
+                
+                    <label for="select-choice-secs">secs</label>
+                    <select name="select-choice-secs" id="select-choice-secs" data-mini="true">
+                        <option>secs</option>
+                        <option value="0">0 s</option>
+                        <option value="1">1 s</option>
+                        <option value="2">2 s</option>
+                        <option value="3">3 s</option>
+                        <option value="4">4 s</option>
+                        <option value="5">5 s</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                        <option value="24">24</option>
+                        <option value="25">25</option>
+                        <option value="26">26</option>
+                        <option value="27">27</option>
+                        <option value="28">28</option>
+                        <option value="29">29</option>
+                        <option value="30">30</option>
+                        <option value="31">31</option> 
+                        <option value="32">32</option>
+                        <option value="33">33</option>
+                        <option value="34">34</option>  
+                        <option value="35">35</option>
+                        <option value="36">36</option>
+                        <option value="37">37</option>
+                        <option value="38">38</option>
+                        <option value="39">39</option>
+                        <option value="40">40</option>
+                        <option value="41">41</option>
+                        <option value="42">42</option>
+                        <option value="43">43</option>
+                        <option value="44">44</option>
+                        <option value="45">45</option>
+                        <option value="46">46</option>
+                        <option value="47">47</option>
+                        <option value="48">48</option>
+                        <option value="49">49</option>
+                        <option value="50">50</option>
+                        <option value="51">51</option>
+                        <option value="52">52</option>
+                        <option value="53">53</option>
+                        <option value="54">54</option>
+                        <option value="55">55</option>
+                        <option value="56">56</option>
+                        <option value="57">57</option>
+                        <option value="58">58</option>
+                        <option value="59">59</option>
+                    </select>
+                    
+                </fieldset>
+            </div>
+            <!--Length of Session -->
+            <div data-role="fieldcontain">
+                <fieldset data-role="controlgroup" data-type="horizontal">
+                    <legend>Length of Session:</legend>
+                
+                    <!-- This might be easier as a text imput, which checks if this is a multiple of the interval.  -->
+
+                    <label for="select-choice-length">hrs/mins</label>
+                    <select name="select-choice-length" id="select-choice-length" data-mini="true">
+                        <option>hrs, mins</option>
+                        <option value="90">1 h, 30 mins</option>
+                        <!-- etc. -->
+                    </select>
+                
+                    <label for="select-choice-numobs">observations</label>
+                    <select name="select-choice-numobs" id="select-choice-numobs" data-mini="true">
+                        <option>#</option>
+                        <option value="1">1</option>
+                        <!-- etc. -->
+
+                    </select><p>observations</p>
+                                        
+                </fieldset>
+            </div>
+            <!--Alarms-->
+            <div data-role="fieldcontain">
+               <label for="select-choice-alarm" class="select">Alarm:</label>
+               <select name="select-choice-alarm" id="select-choice-alarm" data-mini="true">
+                  <option value="sirencont">Siren (Continuous)</option>
+                  <option value="beeps">Beeps (Continuous)</option>
+                  <option value="ding">One Ding</option>
+                  <option value="beep">One Beep</option>
+               </select>
+               <p><h6>Single tones are only recommended for very short observation intervals.</h6></p>
+            </div>
+            <!--Included in obs -->
+            <div align="center">
+                <h3>Include in Observations:</h3>
+            </div>
+            <p>Date & Time</p>
+            <p>Notes/Comments</p>
+            <label><input type="checkbox" name="numfieldcheckbox" />Number Field</label>
+            <div data-role="fieldcontain">
+                <fieldset data-role="controlgroup" data-mini="true">
+                    <legend>Number Field Type:</legend>
+                        <input type="radio" name="numfietype" id="numfietype1" value="choice-1" checked="checked" />
+                        <label for="radio-choice-1">Other</label>
+                        <input type="radio" name="numfietype" id="numfietype2" value="choice-2" checked="checked" />
+                        <label for="radio-choice-2">mm</label>
+                </fieldset>
+            </div>
+        </div><!-- /content -->
+    </div><!-- /page -->
+<!-- Start of Acct Info page -->
+    <div data-role="page" id="accountinfo">
+        <div data-role="header">
+            <h1>Field and Lab Notebook</h1>
+            <a href="#homeloggedin" data-role="button" class="ui-btn-right">Home</a>
+        </div><!-- /header -->
+        <div data-role="content">
+            <div align="center">
+                <p><h2>Your Account</h2></p>
+            </div> 
+        </div>
+    </div><!--end of page-->
 </body>
-</html>
+</html> 
