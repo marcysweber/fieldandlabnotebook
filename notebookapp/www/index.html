@@ -59,7 +59,7 @@ Problems:
         </div>
 
 
-        <a href="#newsetup" class="ui-btn ui-shadow ui-btn-corner-all">Set Up A Session</a>
+        <a href="#newsetup" class="ui-btn ui-shadow ui-btn-corner-all" onclick="app.setuppage();">Set Up A Session</a>
         <a href="#savedsessions" class="ui-btn ui-shadow ui-btn-corner-all" onclick="app.buttonpress();">Access Your Saved Sessions</a>
 
         <script type="text/javascript" src="cordova.js"></script>
@@ -97,7 +97,7 @@ Problems:
 
         <div data-role="content">
             <div align="center">
-                <p><h2>Set Up Your Session</h2></p>
+                <h2>Set Up Your Session</h2>
             </div>   
             <div data-role="fieldcontain" class="ui-field-contain ui-body ui-br">
                 <label for="setupname">Study/Experiment Name:</label>
@@ -149,7 +149,7 @@ Problems:
                   <option value="beep">One Beep</option>
  
                </select>
-               <p style="font-size: 0.5em">Single tones are only recommended for very short observation intervals.</p>
+               <p style="font-size: 0.75em">Single tones are only recommended for very short observation intervals.</p>
             </div>
             <!--Included in obs -->
             <div align="center">
@@ -159,19 +159,19 @@ Problems:
             <p>Notes/Comments</p>
             <label><input type="checkbox" name="numfieldcheckbox" id="numfieldcheckbox" />Number Field</label>
             
-            <div id="numfieldtype" class="ui-radio ui-disabled"> <!--This should be enabled if above checkbox is checked.-->
+            <div data-role="fieldcontain" name="numfieldtype" id="numfieldtype" class="ui-radio ui-disabled"> 
                 <fieldset data-role="controlgroup" data-mini="true">
                     <legend>Number Field Type:</legend>
-                    <input type="radio" name="radio-choice" id="radio-choice-1" value="choice-1" checked="checked" />
+                    <input type="radio" name="radio-choice" id="radio-choice-1" value="Other" checked="checked" />
                     <label for="radio-choice-1">Other</label>
 
-                    <input type="radio" name="radio-choice" id="radio-choice-2" value="choice-2"  />
+                    <input type="radio" name="radio-choice" id="radio-choice-2" value="km"  />
                     <label for="radio-choice-2">km</label>
 
-                    <input type="radio" name="radio-choice" id="radio-choice-3" value="choice-3"  />
+                    <input type="radio" name="radio-choice" id="radio-choice-3" value="m"  />
                     <label for="radio-choice-3">m</label>
 
-                    <input type="radio" name="radio-choice" id="radio-choice-4" value="choice-4"  />
+                    <input type="radio" name="radio-choice" id="radio-choice-4" value="cm"  />
                     <label for="radio-choice-4">cm</label>
                 </fieldset>
             </div>   
@@ -179,7 +179,7 @@ Problems:
             <label><input id="checkboxcheckbox" type="checkbox" name="checkboxcheckbox"/>Checkbox</label>
             <div id="checkboxname" data-role="fieldcontain" class="ui-field-contain ui-body ui-br ui-disabled"><!--Enable when checkboxcheckbox is checked-->
                 <label for="checkbox">Checkbox Name:</label>
-                <input type="text" name="checkboxname"  value="" data-mini="true"/>
+                <input type="text" name="checkboxname" id="checkboxinput" value="" data-mini="true"/>
             </div> 
 
             
@@ -188,7 +188,7 @@ Problems:
             <div data-role="controlgroup">
                 <a href="#homeloggedin" data-role="button" >Cancel</a>
                 <div class="ui-disabled" id="continuebutt"> <!--This needs to be enabled when name, interval, alarm, and length have been selected/filled in-->
-                    <a href="#protoobspage" data-role="button"  onclick="app.setupbutton">Continue</a>
+                    <a href="#confirmpage" data-role="button"  onclick="utilfunc.setupbutton();">Continue</a>
                 </div>
             </div>
         </div><!-- /content -->
@@ -206,6 +206,73 @@ Problems:
         </div>
     </div> end of page
 -->
-<!-- Start of Prototype Observation Page -->
+
+
+
+<!-- Start of Confirm Setup Page -->
+    <div data-role="page" id="confirmpage">
+        <div data-role="header">
+            <h1>Field and Lab Notebook</h1>
+            <a href="#homeloggedin" data-role="button" data-icon="home" class="ui-btn-right">Home</a>
+        </div>
+        <div data-role="content">
+            <div align="center">
+                <h2>Confirm Setup</h2>
+            </div>
+            <p id="confirmname" class="studyname"> <strong>Name: </strong> </p>
+            <p id="confirmint"> <strong>Observation Interval: </strong></p>
+            <p id="confirmlength"> <strong>Session Length: </strong></p>
+            <p id="confirmalarm"> <strong>Alarm: </strong></p>
+            <p>Include in Observations:</p>
+            <ul id="includelist">
+                <li>Date & Time</li>
+                <li>Notes/Comments</li>
+            </ul>
+            <!--Bottom Buttons! -->
+            <div data-role="controlgroup">
+                <div class="" id="confirmbutt"> 
+                    <a href="#countdownpage" id="startsession" data-role="button" onclick="timer.countdown();">Confirm & Start Observations</a>
+                </div>
+                <a href="#newsetup" data-role="button" >Change Setup</a>
+            </div>
+        </div>
+    </div>
+    <div data-role="page" id="countdownpage">
+         <div data-role="header">
+            <h1>Field and Lab Notebook</h1>
+        </div>
+        <div data-role="content">
+            <div align="center">
+                <h2 class="studyname"></h2>
+                <p>Please wait to start your first observation:</p>
+                <p style="font-size: 5em"><span align="center" id="countdown"></span></p>
+            </div>
+        </div>
+    </div>
+    <div data-role="page" id="alarmpage">
+        <div data-role="header">
+            <h1>Field and Lab Notebook</h1>
+        </div>
+        <div data-role="content">
+
+        </div>
+    </div>
+
+    <!--
+When you click the #startsession, functions are called to add necessary elements to ob page. User will be taken to an interim page for 5 secs.
+    functions:
+        Name as a header
+        number field
+        checkbox
+
+Then the first observation comes up and the timer loop starts.
+
+If user hits "Save&Continue" button, interim page with countdown appears.
+
+When timer is up, user is brought to "Start observation" page with just button to stop alarm. Must loop around whether button is pressed or not, as soon as "start observation" page is loaded. 
+
+User hits "start observation" page and is presented with next observation page. 
+
+    -->
 </body>
 </html> 

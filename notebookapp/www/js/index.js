@@ -17,6 +17,8 @@
  * under the License.
  */
 
+ //*Something wrong in confirmnumfield
+
 var uidata = {
     gethrs: function() {
         var dropdown = $("#select-choice-hours");
@@ -114,8 +116,30 @@ var utilfunc = {
         }else {
             $('#continuebutt').addClass('ui-disabled');
         }
+    },
+    setupbutton: function() {
+        var intlength = utilfunc.calcsession();
+
+        $('.studyname').append($("#setupname").val());
+        $('#confirmint').append(utilfunc.sesslengtxt(intlength));
+        $('#confirmlength').append($("#sessionlength option:selected").text());
+        $('#confirmalarm').append($("#select-choice-alarm option:selected").text());
+        utilfunc.confirmnumfield();
+        utilfunc.confirmcheck();
+    },
+    confirmnumfield: function() {
+        var numtype = $("#numfieldtype :radio:checked").val();
+        if($('#numfieldcheckbox').is(':checked')) {
+            $('#includelist').append("<li>Number field: </li>" + numtype);
+        }
+    },
+    confirmcheck: function() {
+        var checkname = $('#checkboxinput').val();
+        if($('#checkboxcheckbox').is(':checked')) {
+            $('#includelist').append("<li>Checkbox: </li>" + checkname);
+        }
     }
-}
+};
 
 var app = {
     // Application Constructor
@@ -136,9 +160,6 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-        uidata.gethrs();
-        uidata.getmins();
-        uidata.getsecs();
         $('.interval').bind("change", utilfunc.calcsessionDrop);
         $("#numfieldcheckbox").bind("change", utilfunc.numberfieldtog);
         $('#checkboxcheckbox').bind("change", utilfunc.checkboxtog);
@@ -152,7 +173,28 @@ var app = {
     buttonpress: function() {
         navigator.notification.alert('Hello!');
     },
-    setupbutton: function() {
-        var setupname = $("input[name=setupname]").val();
-    }
+    setuppage: function() {
+        uidata.gethrs();
+        uidata.getmins();
+        uidata.getsecs();
+
+    },
+    
+};
+
+var timer ={
+    countdown: function() {
+        var counter = 6;
+        setInterval(function() {
+            counter--;
+            if (counter >= 0) {
+                span = document.getElementById("countdown");
+                span.innerHTML = counter;
+            }
+            if (counter === 0) {
+                $.mobile.pageContainer.pagecontainer("change", "#alarmpage");
+                clearInterval(counter);
+            }
+        }, 1000);
+    },
 };
