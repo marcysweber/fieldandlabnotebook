@@ -164,7 +164,9 @@ var app = {
         $("#numfieldcheckbox").bind("change", utilfunc.numberfieldtog);
         $('#checkboxcheckbox').bind("change", utilfunc.checkboxtog);
         $('.req').bind("change", utilfunc.reqcheck);
-        
+        uidata.gethrs();
+        uidata.getmins();
+        uidata.getsecs();
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -174,9 +176,6 @@ var app = {
         navigator.notification.alert('Hello!');
     },
     setuppage: function() {
-        uidata.gethrs();
-        uidata.getmins();
-        uidata.getsecs();
 
     },
     
@@ -197,4 +196,22 @@ var timer ={
             }
         }, 1000);
     },
-};
+    /*
+    intcountdown: function() {
+        //a function that also shows the user how much time is left in this interval. Using 
+        //the class .timeleftint, called from #startsession or when #stopalarm pressed?
+        var intlength = utilfunc.calcsession();
+        var counter = 60 * intlength;
+        setInterval(function() {
+            counter--;
+            if (counter >= 0) {
+                span = document.getElementById("timeleftint");
+                span.innerHTML = (counter / 60) mins;
+            }
+            if (counter === 0) {
+                clearInterval(counter);
+            }
+        }, 1000);
+
+    },*/
+}
