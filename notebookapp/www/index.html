@@ -237,24 +237,64 @@ Problems:
             </div>
         </div>
     </div>
+<!-- Countdown Page -->
     <div data-role="page" id="countdownpage">
          <div data-role="header">
             <h1>Field and Lab Notebook</h1>
+            <a href="#homeloggedin" data-role="button" data-icon="home" class="ui-btn-right">Home</a>
         </div>
-        <div data-role="content">
-            <div align="center">
-                <h2 class="studyname"></h2>
-                <p>Please wait to start your first observation:</p>
-                <p style="font-size: 5em"><span align="center" id="countdown"></span></p>
-            </div>
+        <div data-role="content" align="center">
+            <h2 class="studyname"></h2>
+            <p>Please wait to start your first observation:</p>
+            <p style="font-size: 5em"><span align="center" id="countdown"></span></p>
         </div>
     </div>
+<!-- Alarm Page -->
     <div data-role="page" id="alarmpage">
         <div data-role="header">
             <h1>Field and Lab Notebook</h1>
+            <a href="#homeloggedin" data-role="button" data-icon="home" class="ui-btn-right">Home</a>
+        </div>
+        <div data-role="content" align="center">
+            <h2 class="studyname">Working On: </h2>
+            <p>Ready for Observation!</p>
+            <a href="#observationpage" id="stopalarm" data-role="button" onclick="timer.intcountdown();">Start This Observation</a>
+        </div>
+    </div>
+<!-- Observation Page -->
+    <div data-role="page" id="observationpage">
+        <div data-role="header">
+            <h1>Field and Lab Notebook</h1>
+            <a href="#homeloggedin" data-role="button" data-icon="home" class="ui-btn-right">Home</a>
         </div>
         <div data-role="content">
+            <p class="studyname">Study: </p>
+            <p class="thisob">Observation # </p>
+            <p style="font-size: 0.75em" class="date">Date: </p>
+            <p style="font-size: 0.75em" class="time">Time: </p>
 
+            <label for="notes">Notes/Comments:</label>
+            <textarea name="notestext" id="notes"></textarea>
+
+            <a href="#interimpage" id="saveandcont" data-role="button" >Finish & Save</a>
+            <p>Time left until next observation:</p>
+            <p><span id="timeleftint"></span></p>
+            <p>Time left in session:</p>
+            <p><span class="timeleftsession"></span></p>
+        </div>
+    </div>
+<!-- Interim Page-->
+    <div data-role="page" id="interimpage">
+        <div data-role="header">
+            <h1>Field and Lab Notebook</h1>
+            <a href="#homeloggedin" data-role="button" data-icon="home" class="ui-btn-right">Home</a>
+        </div>
+        <div data-role="content" align="center">
+             <h2 class="studyname">Working On: </h2>
+             <p>Time left until next observation:</p>
+             <p><span id="timeleftint"></span></p>
+             <p>Time left in session:</p>
+             <p><span class="timeleftsession"></span></p>
         </div>
     </div>
 
@@ -264,15 +304,17 @@ When you click the #startsession, functions are called to add necessary elements
         Name as a header
         number field
         checkbox
+        date & time
 
 Then the first observation comes up and the timer loop starts.
 
-If user hits "Save&Continue" button, interim page with countdown appears.
+If user hits "Finish & Save" button, interim page with countdown appears.
 
 When timer is up, user is brought to "Start observation" page with just button to stop alarm. Must loop around whether button is pressed or not, as soon as "start observation" page is loaded. 
 
 User hits "start observation" page and is presented with next observation page. 
 
+REMOVE THE EXTRA HOME BUTTONS BEFORE SHOWING
     -->
 </body>
 </html> 
