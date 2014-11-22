@@ -231,7 +231,7 @@ Problems:
             <!--Bottom Buttons! -->
             <div data-role="controlgroup">
                 <div class="" id="confirmbutt"> 
-                    <a href="#countdownpage" id="startsession" data-role="button" onclick="timer.countdown();">Confirm & Start Observations</a>
+                    <a href="#countdownpage" id="startsession" data-role="button" onclick="timer.countdown(); timer.obcountdowns();">Confirm & Start Observations</a>
                 </div>
                 <a href="#newsetup" data-role="button" >Change Setup</a>
             </div>
@@ -258,7 +258,7 @@ Problems:
         <div data-role="content" align="center">
             <h2 class="studyname">Working On: </h2>
             <p>Ready for Observation!</p>
-            <a href="#observationpage" id="stopalarm" data-role="button" onclick="timer.intcountdown();">Start This Observation</a>
+            <a href="#observationpage" id="stopalarm" data-role="button" onclick="utilfunc.countsobservations();">Start This Observation</a>
         </div>
     </div>
 <!-- Observation Page -->
@@ -269,7 +269,7 @@ Problems:
         </div>
         <div data-role="content">
             <p class="studyname">Study: </p>
-            <p class="thisob">Observation # </p>
+            <p id="thisob">Observation # </p>
             <p style="font-size: 0.75em" class="date">Date: </p>
             <p style="font-size: 0.75em" class="time">Time: </p>
 
@@ -278,9 +278,9 @@ Problems:
 
             <a href="#interimpage" id="saveandcont" data-role="button" >Finish & Save</a>
             <p>Time left until next observation:</p>
-            <p><span id="timeleftint"></span></p>
+            <p><span id="timeleftint1"></span></p>
             <p>Time left in session:</p>
-            <p><span class="timeleftsession"></span></p>
+            <p><span id="timeleftsession1"></span></p>
         </div>
     </div>
 <!-- Interim Page-->
@@ -292,12 +292,14 @@ Problems:
         <div data-role="content" align="center">
              <h2 class="studyname">Working On: </h2>
              <p>Time left until next observation:</p>
-             <p><span id="timeleftint"></span></p>
+             <p><span id="timeleftint2"></span></p>
              <p>Time left in session:</p>
-             <p><span class="timeleftsession"></span></p>
+             <p><span id="timeleftsession2"></span></p>
         </div>
     </div>
 
+    <div data-role="page" id="finalobservation">
+    </div>
     <!--
 When you click the #startsession, functions are called to add necessary elements to ob page. User will be taken to an interim page for 5 secs.
     functions:

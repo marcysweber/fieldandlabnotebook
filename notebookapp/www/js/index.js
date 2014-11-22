@@ -28,8 +28,8 @@ var uidata = {
             op.text = i + " hrs";
             dropdown.append(op);
         };
-        dropdown.selectedIndex = 0
-        dropdown.selectmenu("refresh"); 
+        dropdown.selectedIndex = 0;
+        dropdown.selectmenu().selectmenu("refresh"); 
     },
     getmins: function() {
         var dropdown = $("#select-choice-mins");
@@ -39,8 +39,8 @@ var uidata = {
             op.text = i + " mins";
             dropdown.append(op);
         };
-        dropdown.selectedIndex = 0
-        dropdown.selectmenu("refresh");
+        dropdown.selectedIndex = 0;
+        dropdown.selectmenu().selectmenu("refresh");
     },
     getsecs: function() {
         var dropdown = $("#select-choice-secs");
@@ -50,20 +50,23 @@ var uidata = {
             op.text = i + " secs";
             dropdown.append(op);
         };
-        dropdown.selectedIndex = 0
-        dropdown.selectmenu("refresh");
+        dropdown.selectedIndex = 0;
+        dropdown.selectmenu().selectmenu("refresh");
     },
+    //value of these dropdowns are all in mins
 };
 
+var observations = 0;
+
 var utilfunc = {
-    calcsession: function() {
-        var sessionlength = Number($('#select-choice-hours option:selected').val()) + 
+    calcint: function() {
+        var intlength = Number($('#select-choice-hours option:selected').val()) + 
             Number($('#select-choice-mins option:selected').val()) +
             Number($('#select-choice-secs option:selected').val());
-        return sessionlength;
+        return intlength;
     },
     calcsessionDrop: function(event) {
-        var sessionlength = utilfunc.calcsession();
+        var sessionlength = utilfunc.calcint();
         var dropdown = $('#sessionlength');
         dropdown.find('option').remove();
         var plzsel = new Option();
@@ -98,7 +101,7 @@ var utilfunc = {
         return($('#setupname').val() !== "");
     },
     intValid: function() {
-        var sessionlength = utilfunc.calcsession();
+        var sessionlength = utilfunc.calcint();
         return(sessionlength !== 0);
     },
     sessionlengthValid: function() {
@@ -118,7 +121,7 @@ var utilfunc = {
         }
     },
     setupbutton: function() {
-        var intlength = utilfunc.calcsession();
+        var intlength = utilfunc.calcint();
 
         $('.studyname').append($("#setupname").val());
         $('#confirmint').append(utilfunc.sesslengtxt(intlength));
@@ -137,6 +140,16 @@ var utilfunc = {
         var checkname = $('#checkboxinput').val();
         if($('#checkboxcheckbox').is(':checked')) {
             $('#includelist').append("<li>Checkbox: </li>" + checkname);
+        }
+    },
+    countsobservations: function() {
+        observations++;
+        var sesslengthinob = Number($('#sessionlength option:selected').val())/utilfunc.calcint();
+        if(observations < sesslengthinob) {
+            span = document.getElementById("thisob");
+            span.innerHTML = "Observation # " + observations;
+        }else if(observations >= sesslengthinob) {
+           $.mobile.pageContainer.pagecontainer("change", "#finalobservation"); 
         }
     }
 };
@@ -181,9 +194,9 @@ var app = {
     
 };
 
-var timer ={
+var timer = {
     countdown: function() {
-        var counter = 6;
+        var counter = 4;
         setInterval(function() {
             counter--;
             if (counter >= 0) {
@@ -196,22 +209,73 @@ var timer ={
             }
         }, 1000);
     },
-    /*
     intcountdown: function() {
         //a function that also shows the user how much time is left in this interval. Using 
         //the class .timeleftint, called from #startsession or when #stopalarm pressed?
-        var intlength = utilfunc.calcsession();
+
+        var intlength = utilfunc.calcint();
         var counter = 60 * intlength;
         setInterval(function() {
             counter--;
             if (counter >= 0) {
-                span = document.getElementById("timeleftint");
-                span.innerHTML = (counter / 60) mins;
+                var ret = null;
+                if(counter >= 60) {
+                    var secs = counter % 60;
+                    var mins = (counter - secs)/60;
+                    ret = mins + " mins, " + secs + " secs";
+                } else {
+                    ret = counter + " secs";
+                }
+//                var all = $(".timeleftint").map(function() {
+//                   this.innerHTML = ret;
+//                }).get();
+
+               span1 = document.getElementById("timeleftint1");
+               span1.innerHTML = (ret);
+               //this is not ideal, by getElementsByClassName is not working.
+               span2 = document.getElementById("timeleftint2");
+               span2.innerHTML = ret;
             }
             if (counter === 0) {
                 clearInterval(counter);
+                $.mobile.pageContainer.pagecontainer("change", "#alarmpage");
             }
         }, 1000);
 
-    },*/
-}
+    },
+
+    sesscountdown: function() {
+        var sesslength = Number($('#sessionlength option:selected').val());
+        var counter = sesslength * 60;
+        setInterval(function() {
+            counter--;
+            if (counter >= 0) {
+                var ret = null;
+                if(counter >= 3600) {
+                    var secs = counter % 60;
+                    var mins = ((counter - secs) % 3600);
+                    var hrs = (counter - secs - mins);
+                    ret = (hrs/3600) + " h " + (mins/60) + " m " + secs + " s";
+                }
+                else if(counter >= 60) {
+                    var secs2 = counter % 60;
+                    var mins2 = (counter - secs2)/60;
+                    ret = mins2 + " m " + secs2 + " s";
+                } else {
+                    ret = counter + " s";
+                }
+                span1 = document.getElementById("timeleftsession1");
+                span1.innerHTML = (ret);
+                //this is not ideal, by getElementsByClassName is not working.
+                span2 = document.getElementById("timeleftsession2");
+                span2.innerHTML = ret;
+            } if (counter === 0) {
+                clearInterval(counter);
+            }
+        }, 1000);
+    },
+    obcountdowns: function() {
+        timer.intcountdown();
+        timer.sesscountdown();
+    },
+};
