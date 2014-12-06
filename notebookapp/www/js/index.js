@@ -307,3 +307,49 @@ var timer = {
         timer.sesscountdown();
     },
 };
+
+var database = {
+    initialized: false,
+    userName: '',
+
+    experimentName: "",
+    initialize: function(experimentName) {
+        this.userName = 'default user';
+        this.db = new PouchDB(this.userName);
+        console.log("Database " + this.userName + " initialized");  
+        var observations = {
+            _id: experimentName,
+            obs: []
+        }
+        this.db.put(observations);
+        this.initialized = true;
+        this.experimentName = experimentName;
+    },
+
+    addObservation: function(dataObject) {
+        if (!this.initialized)
+            throw ("Error: Database not initialized");
+
+        var fields = ['experimentNumber', 'timeStamp', 'numberFieldData', 
+                      'numberFieldType', 'checkBoxData', 'checkBoxName',
+                      'checkBoxChecked', 'notes'];
+        $.map(fields, function(field) {
+            if (! (field in dataObject) ) {
+                throw ("Error " + field + " not in dataobject.");
+            }
+        });
+        
+        this.db.get(this.experimentName).then(function (observations) {
+            observations.obs.push(dataObject);
+            return database.db.put(observations);
+        }).then(function () {
+            return database.db.get(database.experimentName);
+        }).then(function (observations) {
+            console.log(observations);
+        });
+    },
+
+    getAllObservations: function(){
+        return this.db.get(this.experimentName);
+    }
+};
