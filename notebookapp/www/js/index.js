@@ -134,16 +134,16 @@ var utilfunc = {
         var numtype = $("#numfieldtype :radio:checked").val();
         if($('#numfieldcheckbox').is(':checked')) {
             $('#includelist').append("<li>Number field: </li>" + numtype);
-            $('.xtras').append($("#numbersection"));
             $('#numberlabel').append(numtype);
+            $('.xtras').append($("#numbersection"));
         }
     },
     confirmcheck: function() {
         var checkname = $('#checkboxinput').val();
         if($('#checkboxcheckbox').is(':checked')) {
             $('#includelist').append("<li>Checkbox: </li>" + checkname);
-            $('.xtras').append($("#checkboxsection"));
             $('#checkboxlabel').append(checkname);
+            $('.xtras').append($("#checkboxsection"));
         }
     },
     dateandtime: function() {
@@ -196,6 +196,7 @@ var app = {
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
         $('.interval').bind("change", utilfunc.calcsessionDrop);
+        $('[name="radio-choice"]').checkboxradio();
         $("#numfieldcheckbox").bind("change", utilfunc.numberfieldtog);
         $('#checkboxcheckbox').bind("change", utilfunc.checkboxtog);
         $('.req').bind("change", utilfunc.reqcheck);
