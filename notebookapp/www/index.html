@@ -59,7 +59,7 @@ Problems:
         </div>
 
 
-        <a href="#newsetup" class="ui-btn ui-shadow ui-btn-corner-all" onclick="app.setuppage();">Set Up A Session</a>
+        <a href="#newsetup" class="ui-btn ui-shadow ui-btn-corner-all">Set Up A Session</a>
         <a href="#savedsessions" class="ui-btn ui-shadow ui-btn-corner-all" onclick="app.buttonpress();">Access Your Saved Sessions</a>
 
         <script type="text/javascript" src="cordova.js"></script>
@@ -177,7 +177,7 @@ Problems:
             </div>   
 
             <label><input id="checkboxcheckbox" type="checkbox" name="checkboxcheckbox"/>Checkbox</label>
-            <div id="checkboxname" data-role="fieldcontain" class="ui-field-contain ui-body ui-br ui-disabled"><!--Enable when checkboxcheckbox is checked-->
+            <div id="checkboxname" data-role="fieldcontain" class="ui-field-contain ui-body ui-br ui-disabled">
                 <label for="checkbox">Checkbox Name:</label>
                 <input type="text" name="checkboxname" id="checkboxinput" value="" data-mini="true"/>
             </div> 
@@ -249,7 +249,8 @@ Problems:
             <p style="font-size: 5em"><span align="center" id="countdown"></span></p>
         </div>
     </div>
-<!-- Alarm Page -->
+<!-- Alarm Page 
+This page needs to push alarm and have sound/vibrate-->
     <div data-role="page" id="alarmpage">
         <div data-role="header">
             <h1>Field and Lab Notebook</h1>
@@ -258,7 +259,7 @@ Problems:
         <div data-role="content" align="center">
             <h2 class="studyname">Working On: </h2>
             <p>Ready for Observation!</p>
-            <a href="#observationpage" id="stopalarm" data-role="button">Start This Observation</a>
+            <a href="#observationpage" id="stopalarm" data-role="button" onclick="utilfunc.dateandtime();">Start This Observation</a>
         </div>
     </div>
 <!-- Observation Page -->
@@ -270,19 +271,30 @@ Problems:
         <div data-role="content">
             <p class="studyname">Study: </p>
             <p id="thisob">Observation # </p>
-            <p style="font-size: 0.75em" class="date">Date: </p>
-            <p style="font-size: 0.75em" class="time">Time: </p>
+            <p style="font-size: 0.75em">Date: <span class="date"></span></p>
+            <p style="font-size: 0.75em">Time: <span class="time"></span></p>
 
             <label for="notes">Notes/Comments:</label>
             <textarea name="notestext" id="notes"></textarea>
-
-            <a href="#interimpage" id="saveandcont" data-role="button" >Finish & Save</a>
+            <div class="xtras"></div>
+            <a href="#interimpage" id="saveandcont" data-role="button" onclick="utilfunc.saveob();" >Finish & Save</a>
             <p>Time left until next observation:</p>
             <p><span id="timeleftint1"></span></p>
             <p>Time left in session:</p>
             <p><span id="timeleftsession1"></span></p>
         </div>
     </div>
+
+    <div id="numbersection">
+        <label for="numberinput" id="numberlabel">Number field: </label>
+        <input type="number" name="number" pattern="[0-9]*" id="numberinput" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset">
+    </div>
+
+    <div id="checkboxsection">
+        <label id="checkboxlabel"><input id="customcheckbox" type="checkbox" name="customcheckbox"/></label>
+    </div>
+
+
 <!-- Interim Page-->
     <div data-role="page" id="interimpage">
         <div data-role="header">
@@ -298,37 +310,72 @@ Problems:
         </div>
     </div>
 
+<!--Final Alarm Page 
+This page needs to push an alarm and also make sound/vibrate-->
+    <div data-role="page" id="finalalarm">
+        <div data-role="header">
+            <h1>Field and Lab Notebook</h1>
+            <a href="#homeloggedin" data-role="button" data-icon="home" class="ui-btn-right">Home</a>
+        </div>
+        <div data-role="content" align="center">
+            <h2 class="studyname">Working On: </h2>
+            <p>Ready for Last Observation!</p>
+            <a href="#finalobservation" id="stopalarm" data-role="button" onclick="utilfunc.dateandtime();">Start Final Observation</a>
+        </div>
+    </div>
+
+<!-- Final Observation-->
     <div data-role="page" id="finalobservation">
         <div data-role="header">
             <h1>Field and Lab Notebook</h1>
             <a href="#homeloggedin" data-role="button" data-icon="home" class="ui-btn-right">Home</a>
         </div>
         <div data-role="content">
-        <h3>FINAL OBSERVATION</h3>
-        <p class="studyname">Study: </p>
-        <p style="font-size: 0.75em" class="date">Date: </p>
-        <p style="font-size: 0.75em" class="time">Time: </p>
+            <h3>FINAL OBSERVATION</h3>
+            <p class="studyname">Study: </p>
+            <p style="font-size: 0.75em">Date: <span class="date"></span></p>
+            <p style="font-size: 0.75em">Time: <span class="time"></span></p>
 
-        <label for="notes">Notes/Comments:</label>
-        <textarea name="notestext" id="notes"></textarea>
+            <label for="notes">Notes/Comments:</label>
+            <textarea name="notestext" id="notes"></textarea>
+            <div class="xtras"></div>
+            <a href="#exportpage" id="lastsaveandcont" data-role="button" onclick="utilfunc.saveob();" >Finish & Save</a>
         </div>
     </div>
+
+    <div data-role="page" id="exportpage">
+        <div data-role="header">
+            <h1>Field and Lab Notebook</h1>
+            <a href="#homeloggedin" data-role="button" data-icon="home" class="ui-btn-right">Home</a>
+        </div>
+        <div data-role="content">
+            <h2 align="center">Export File</h2>
+            <p>Your observations are currently saved locally on your phone. You can now export this session to either dropbox.com or an email address as an excel file.</p>
+
+            <div data-role="fieldcontain" name="exportoptions" id="exportoptions" class="ui-radio"> 
+                <fieldset data-role="controlgroup" data-mini="true">
+                    <legend>Choose One:</legend>
+                    <input type="radio" name="radio-choice" id="choosedb" value="db" />
+                    <label for="choosedb">dropbox.com</label>
+                    <input type="radio" name="radio-choice" id="chooseemail" value="email"  />
+                    <label for="chooseemail">email</label>
+                </fieldset>
+            </div>   
+            <span id="dropboxinfo" class="ui-disabled">
+                <label for="dropboxacct">Dropbox.com account (email):</label>
+                <input  type="text" name="dropboxacct" id="dropboxacct" value="" data-mini="true"/>
+            </span>
+            <span id="emailinfo" class="ui-disabled">
+                <label for="emailacct">Email address:</label>
+                <input  type="text" name="emailacct" id="emailacct" value="" data-mini="true"/>
+            </span>
+        </div>
+    </div>
+
+
+
+
     <!--
-When you click the #startsession, functions are called to add necessary elements to ob page. User will be taken to an interim page for 5 secs.
-    functions:
-        Name as a header
-        number field
-        checkbox
-        date & time
-
-Then the first observation comes up and the timer loop starts.
-
-If user hits "Finish & Save" button, interim page with countdown appears.
-
-When timer is up, user is brought to "Start observation" page with just button to stop alarm. Must loop around whether button is pressed or not, as soon as "start observation" page is loaded. 
-
-User hits "start observation" page and is presented with next observation page. 
-
 REMOVE THE EXTRA HOME BUTTONS BEFORE SHOWING
     -->
 </body>

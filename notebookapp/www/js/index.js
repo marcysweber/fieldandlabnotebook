@@ -134,15 +134,46 @@ var utilfunc = {
         var numtype = $("#numfieldtype :radio:checked").val();
         if($('#numfieldcheckbox').is(':checked')) {
             $('#includelist').append("<li>Number field: </li>" + numtype);
+            $('.xtras').append($("#numbersection"));
+            $('#numberlabel').append(numtype);
         }
     },
     confirmcheck: function() {
         var checkname = $('#checkboxinput').val();
         if($('#checkboxcheckbox').is(':checked')) {
             $('#includelist').append("<li>Checkbox: </li>" + checkname);
+            $('.xtras').append($("#checkboxsection"));
+            $('#checkboxlabel').append(checkname);
         }
     },
+    dateandtime: function() {
+        $('.date').empty();
+        $('.time').empty();
 
+        var d = new Date();
+        var month = d.getMonth() + 1;
+        var day = d.getDate();
+        var hr = d.getHours();
+        var min = d.getMinutes();
+        var sec = d.getSeconds();
+
+        $('.date').append(month + '/' + day + '/' + d.getFullYear());
+        $('.time').append(hr + ':' + min + ':' + sec);
+    },
+    saveob: function() {
+        //this is where a function goes for LOCAL saving into database
+    },
+    exportdisabling: function() {
+        choice = $('#exportoptions :radio:checked').val();
+
+        if (choice === "db") {
+            $("#dropboxinfo").removeClass("ui-disabled");
+            $("#emailinfo").addClass("ui-disabled");
+        } if (choice === "email") {
+            $("#emailinfo").removeClass("ui-disabled");
+            $("#dropboxinfo").addClass("ui-disabled");           
+        }
+    },
 };
 
 var app = {
@@ -168,6 +199,7 @@ var app = {
         $("#numfieldcheckbox").bind("change", utilfunc.numberfieldtog);
         $('#checkboxcheckbox').bind("change", utilfunc.checkboxtog);
         $('.req').bind("change", utilfunc.reqcheck);
+        $('#exportoptions').bind("change", utilfunc.exportdisabling);
         uidata.gethrs();
         uidata.getmins();
         uidata.getsecs();
@@ -178,9 +210,6 @@ var app = {
     },
     buttonpress: function() {
         navigator.notification.alert('Hello!');
-    },
-    setuppage: function() {
-
     },
     
 };
@@ -231,14 +260,15 @@ var timer = {
                    span2.innerHTML = ret;
                 }
                 if (counter === 0) {
-                clearInterval(counter);
-                $.mobile.pageContainer.pagecontainer("change", "#alarmpage");
-                timer.intcountdown();
+                    utilfunc.saveob();
+                    clearInterval(counter);
+                    $.mobile.pageContainer.pagecontainer("change", "#alarmpage");
+                    timer.intcountdown();
                 }
             }, 1000);
             
         }else if(observations - 1 >= sesslengthinob) {
-           $.mobile.pageContainer.pagecontainer("change", "#finalobservation"); 
+           $.mobile.pageContainer.pagecontainer("change", "#finalalarm"); 
         }
     },
     sesscountdown: function() {
