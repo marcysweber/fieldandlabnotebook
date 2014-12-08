@@ -162,6 +162,19 @@ var utilfunc = {
     },
     saveob: function() {
         //this is where a function goes for LOCAL saving into database
+        dataObject = {
+            'notes': $('.thenotes').val(),
+            'observationNumber': observations,
+            'numberFieldData': $('#numberinput').val(),
+            'checkBoxData': $('#customcheckbox').val(),
+            'timeStamp': '',
+        };
+        if (dataObject.notes !== '') 
+            database.addObservation(dataObject);
+
+        $('.thenotes').val('');
+        $('#numberinput').val('');
+        $('#customcheckbox').prop('checked', false).checkboxradio('refresh');
     },
     exportdisabling: function() {
         choice = $('#exportoptions :radio:checked').val();
@@ -232,6 +245,13 @@ var timer = {
         }, 1000);
     },
     intcountdown: function() {
+        if (observations ==! 0) {
+            
+
+            utilfunc.saveob();
+        };
+
+         //???? or update? if-else?
         observations++;
         var sesslengthinob = Number($('#sessionlength option:selected').val())/utilfunc.calcint();
         if(observations - 1 < sesslengthinob) {
@@ -311,45 +331,45 @@ var timer = {
 var database = {
     initialized: false,
     userName: '',
+    sessionName: "",
 
-    experimentName: "",
-    initialize: function(experimentName) {
+    initialize: function(sessionName) {
         this.userName = 'default user';
         this.db = new PouchDB(this.userName);
         console.log("Database " + this.userName + " initialized");  
         var observations = {
-            _id: experimentName,
+            _id: sessionName,
             obs: []
-        }
+        };
         this.db.put(observations);
         this.initialized = true;
-        this.experimentName = experimentName;
+        this.sessionName = sessionName;
     },
 
     addObservation: function(dataObject) {
         if (!this.initialized)
             throw ("Error: Database not initialized");
 
-        var fields = ['experimentNumber', 'timeStamp', 'numberFieldData', 
+        var fields = ['observationNumber', 'timeStamp', 'numberFieldData', 
                       'numberFieldType', 'checkBoxData', 'checkBoxName',
                       'checkBoxChecked', 'notes'];
-        $.map(fields, function(field) {
-            if (! (field in dataObject) ) {
-                throw ("Error " + field + " not in dataobject.");
-            }
-        });
-        
-        this.db.get(this.experimentName).then(function (observations) {
-            observations.obs.push(dataObject);
-            return database.db.put(observations);
-        }).then(function () {
-            return database.db.get(database.experimentName);
-        }).then(function (observations) {
-            console.log(observations);
-        });
+        //$.map(fields, function(field) {
+        //    if (! (field in dataObject) ) {
+        //        throw ("Error " + field + " not in dataobject.");
+        //    }
+        //});
+            this.db.get(this.sessionName).then(function (observations) {
+                observations.obs.push(dataObject);
+                return database.db.put(observations);
+            }).then(function () {
+                return database.db.get(database.sessionName);
+            }).then(function (observations) {
+                console.log(observations);
+            });
+
     },
 
-    getAllObservations: function(){
-        return this.db.get(this.experimentName);
+    getAllObservations: function(sessionName){
+        return this.db.get(sessionName);
     }
 };

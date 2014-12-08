@@ -232,7 +232,7 @@ Problems:
             <!--Bottom Buttons! -->
             <div data-role="controlgroup">
                 <div class="" id="confirmbutt"> 
-                    <a href="#countdownpage" id="startsession" data-role="button" onclick="timer.countdown(); timer.obcountdowns();">Confirm & Start Observations</a>
+                    <a href="#countdownpage" id="startsession" data-role="button" onclick="timer.countdown(); timer.obcountdowns(); database.initialize($('#setupname').val());">Confirm & Start Observations</a>
                 </div>
                 <a href="#newsetup" data-role="button" >Change Setup</a>
             </div>
@@ -276,7 +276,7 @@ This page needs to push alarm and have sound/vibrate-->
             <p style="font-size: 0.75em">Time: <span class="time"></span></p>
 
             <label for="notes">Notes/Comments:</label>
-            <textarea name="notestext" id="notes"></textarea>
+            <textarea name="notestext" class="thenotes"></textarea>
             <div class="xtras"></div>
             <a href="#interimpage" id="saveandcont" data-role="button" onclick="utilfunc.saveob();" >Finish & Save</a>
             <p>Time left until next observation:</p>
@@ -338,7 +338,7 @@ This page needs to push an alarm and also make sound/vibrate-->
             <p style="font-size: 0.75em">Time: <span class="time"></span></p>
 
             <label for="notes">Notes/Comments:</label>
-            <textarea name="notestext" id="notes"></textarea>
+            <textarea name="notestext" class="thenotes"></textarea>
             <div class="xtras"></div>
             <a href="#exportpage" id="lastsaveandcont" data-role="button" onclick="utilfunc.saveob();" >Finish & Save</a>
         </div>
