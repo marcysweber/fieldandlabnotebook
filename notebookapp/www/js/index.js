@@ -57,6 +57,8 @@ var uidata = {
 };
 
 var observations = 0;
+var thedate;
+var thetime;
 
 var utilfunc = {
     calcint: function() {
@@ -157,8 +159,11 @@ var utilfunc = {
         var min = d.getMinutes();
         var sec = d.getSeconds();
 
-        $('.date').append(month + '/' + day + '/' + d.getFullYear());
-        $('.time').append(hr + ':' + min + ':' + sec);
+        thedate = month + '/' + day + '/' + d.getFullYear();
+        thetime = hr + ':' + min + ':' + sec;
+
+        $('.date').append(thedate);
+        $('.time').append(thetime);
     },
     saveob: function() {
         //this is where a function goes for LOCAL saving into database
@@ -167,11 +172,9 @@ var utilfunc = {
             'observationNumber': observations,
             'numberFieldData': $('#numberinput').val(),
             'checkBoxData': $('#customcheckbox').val(),
-            'timeStamp': '',
+            'timeStamp': thedate + ' ' + thetime
         };
-        if (dataObject.notes !== '') 
-            database.addObservation(dataObject);
-
+        database.addObservation(dataObject);
         $('.thenotes').val('');
         $('#numberinput').val('');
         $('#customcheckbox').prop('checked', false).checkboxradio('refresh');
@@ -246,12 +249,10 @@ var timer = {
     },
     intcountdown: function() {
         if (observations ==! 0) {
-            
-
-            utilfunc.saveob();
+            if (dataObject.notes !== '') {
+                utilfunc.saveob();
+            }
         };
-
-         //???? or update? if-else?
         observations++;
         var sesslengthinob = Number($('#sessionlength option:selected').val())/utilfunc.calcint();
         if(observations - 1 < sesslengthinob) {
@@ -270,9 +271,6 @@ var timer = {
                     } else {
                         ret = counter + " secs";
                     }
-//                var all = $(".timeleftint").map(function() {
-//                   this.innerHTML = ret;
-//                }).get();
 
                    span1 = document.getElementById("timeleftint1");
                    span1.innerHTML = (ret);
@@ -281,7 +279,6 @@ var timer = {
                    span2.innerHTML = ret;
                 }
                 if (counter === 0) {
-                    utilfunc.saveob();
                     clearInterval(counter);
                     $.mobile.pageContainer.pagecontainer("change", "#alarmpage");
                     timer.intcountdown();
