@@ -370,3 +370,15 @@ var database = {
         return this.db.get(sessionName);
     }
 };
+
+exportData = {
+    login: function (userName, password){
+        $.ajax({
+            url: 'http://'
+        });
+    },
+
+    saveData: function (dataString) {
+        
+    }
+};
