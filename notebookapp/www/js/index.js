@@ -226,7 +226,8 @@ var app = {
         console.log('Received Event: ' + id);
     },
     buttonpress: function() {
-        navigator.notification.alert('Hello!');
+        notification.beep();
+        notification.vibrate();
     },
     
 };
@@ -369,6 +370,15 @@ var database = {
     getAllObservations: function(sessionName){
         return this.db.get(sessionName);
     }
+};
+
+notification = {
+    vibrate: function(){
+        navigator.notification.vibrate(2500);
+    },
+    beep: function(){
+        navigator.notification.beep(3);
+    },
 };
 
 exportData = {
