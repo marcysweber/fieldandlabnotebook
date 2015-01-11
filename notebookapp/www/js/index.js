@@ -382,13 +382,18 @@ notification = {
 };
 
 exportData = {
-    login: function (userName, password){
-        $.ajax({
-            url: 'http://'
-        });
-    },
+    saveData: function (data, email, success){
+        var object_to_send = {
+            obs: data,
+            dest: email
+        };
 
-    saveData: function (dataString) {
-        
+        $.ajax({
+          type: "POST",
+          url: "http://fieldandlabnotebook.herokuapp.com/senddata",
+          data: object_to_send,
+          success: success,
+          dataType: "application/json"
+        }); 
     }
 };
